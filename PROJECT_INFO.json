@@ -1,0 +1,29 @@
+{
+  "name": "ShareMeFiles",
+  "version": "1.0.0",
+  "platform": "iOS",
+  "bundle_identifier": "ru.sektxnt.sharemefiles",
+  "minimum_ios_version": "16.0",
+  "language": "Swift",
+  "ui_framework": "SwiftUI",
+  "web_engine": "WKWebView",
+  "website": "https://sharemefiles.com/",
+  "project": "ShareMeFiles.xcodeproj",
+  "scheme": "ShareMeFiles",
+  "build": {
+    "system": "GitHub Actions",
+    "runner": "macos-15",
+    "configuration": "Release",
+    "artifact": "ShareMeFiles-unsigned.ipa",
+    "signed": false
+  },
+  "features": [
+    "WebView",
+    "File downloads",
+    "File sharing",
+    "JavaScript dialogs",
+    "WebSocket support through website",
+    "Back and forward navigation",
+    "Invite link handling"
+  ]
+}
