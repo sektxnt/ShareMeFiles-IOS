@@ -1,0 +1,58 @@
+name: Build ShareMeFiles iOS
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build unsigned IPA
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Build and archive for iOS
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project ShareMeFiles.xcodeproj \
+            -scheme ShareMeFiles \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/ShareMeFiles.xcarchive" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY='' \
+            archive | tee "$RUNNER_TEMP/xcodebuild.log"
+
+      - name: Package IPA
+        run: |
+          set -euo pipefail
+          APP="$RUNNER_TEMP/ShareMeFiles.xcarchive/Products/Applications/ShareMeFiles.app"
+          test -d "$APP"
+          mkdir -p "$RUNNER_TEMP/ipa/Payload"
+          ditto "$APP" "$RUNNER_TEMP/ipa/Payload/ShareMeFiles.app"
+          cd "$RUNNER_TEMP/ipa"
+          /usr/bin/zip -qry "$GITHUB_WORKSPACE/ShareMeFiles-unsigned.ipa" Payload
+          shasum -a 256 "$GITHUB_WORKSPACE/ShareMeFiles-unsigned.ipa" > "$GITHUB_WORKSPACE/ShareMeFiles-unsigned.ipa.sha256"
+
+      - name: Upload IPA and build log
+        uses: actions/upload-artifact@v4
+        with:
+          name: ShareMeFiles-iOS-build
+          path: |
+            ShareMeFiles-unsigned.ipa
+            ShareMeFiles-unsigned.ipa.sha256
+            ${{ runner.temp }}/xcodebuild.log
+          if-no-files-found: error
+          retention-days: 14
