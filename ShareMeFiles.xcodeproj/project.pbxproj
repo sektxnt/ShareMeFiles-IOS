@@ -129,6 +129,7 @@
 /* Begin XCBuildConfiguration section */
         E10000000000000000000003 /* Debug */ = {
             isa = XCBuildConfiguration;
+            name = Debug;
             buildSettings = {
                 CODE_SIGN_STYLE = Automatic;
                 CURRENT_PROJECT_VERSION = 1;
@@ -147,6 +148,7 @@
 
         E10000000000000000000004 /* Release */ = {
             isa = XCBuildConfiguration;
+            name = Release;
             buildSettings = {
                 CODE_SIGN_STYLE = Automatic;
                 CURRENT_PROJECT_VERSION = 1;
@@ -165,6 +167,7 @@
 
         E10000000000000000000005 /* Debug */ = {
             isa = XCBuildConfiguration;
+            name = Debug;
             buildSettings = {
                 CODE_SIGN_STYLE = Automatic;
                 CURRENT_PROJECT_VERSION = 1;
@@ -183,6 +186,7 @@
 
         E10000000000000000000006 /* Release */ = {
             isa = XCBuildConfiguration;
+            name = Release;
             buildSettings = {
                 CODE_SIGN_STYLE = Automatic;
                 CURRENT_PROJECT_VERSION = 1;
